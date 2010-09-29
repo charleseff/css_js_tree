@@ -1,11 +1,10 @@
 module CssTreeHelper
   def css_tree
-    hierarchy_tree_location = 'generated'
 
     hierarchy = controller.class.to_s.underscore.gsub('_controller','').split('/') + [action_name]
 
     included_css = 1.upto(hierarchy.size).inject([])  do |array, i |
-      rel_location = hierarchy_tree_location + '/' + hierarchy[0,i].join('/') + '.css'
+      rel_location = CssTree.config[:css_tree_location] + '/' + hierarchy[0,i].join('/') + '.css'
       array << rel_location if File.exists? File.join(Rails.root, 'public', 'stylesheets', rel_location )
       array
     end

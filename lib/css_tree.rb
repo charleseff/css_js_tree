@@ -1,8 +1,16 @@
-# CssTree
+class CssTree
+  @@config ||= {
+          :css_tree_location => ''
+  }
 
-%w{ models controllers helpers }.each do |dir|
-  path = File.join(File.dirname(__FILE__), 'app', dir)
-  $LOAD_PATH << path
+  cattr_accessor :config
+
+  def self.configure(&block)
+    yield @@config
+  end
 end
+
+$LOAD_PATH <<  File.join(File.dirname(__FILE__), 'app', 'helpers')
+
 
 require 'css_tree_helper'
