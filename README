@@ -1,0 +1,22 @@
+CssTree
+=======
+
+Plugin to allow automatic loading of css files using the same hierarchical structure as your controllers and views
+
+
+Example
+=======
+
+
+in application_controller.rb:
+
+    helper CssTreeHelper
+
+in your layout file:
+
+    <html>
+      <head>
+        <%= css_tree %>
+      </head>
+      ...
+    </html>
