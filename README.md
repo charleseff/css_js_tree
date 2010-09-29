@@ -21,7 +21,7 @@ Then, in application_controller.rb add this line:
 
     helper CssTreeHelper
 
-and add to you layout file:
+and add to your layout file:
 
     <html>
       <head>
