@@ -1,6 +1,6 @@
  CssTree
 =======
-CssTree is a plugin to allow automatic loading of css files using the same hierarchical structure as your controllers and views for better modularity and separation of concerns.
+CssTree is a Rails plugin to allow automatic loading of css files using the same hierarchical structure as your controllers and views for better modularity and separation of concerns.
 
 ## What does it do exactly?
 Say you have controller `Admin::User::CommentsController`, which has action `show` and you have the following files under your `public/stylesheets` folder:
@@ -44,4 +44,4 @@ To change the default root directory to something other than `public/stylesheets
       end
     end
 
-This is useful when you have css files that you want to reside outside of this structure, or when you're using Sass to generated your css files.   
+This is useful when you have css files that you want to reside outside of this structure, or when you're using Sass to generate your css files.
