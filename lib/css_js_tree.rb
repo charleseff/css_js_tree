@@ -11,7 +11,7 @@ class CssJsTree
   end
 end
 
+require "css_js_tree/core_ext"
+
 $LOAD_PATH <<  File.join(File.dirname(__FILE__), 'app', 'helpers')
-
-
 require 'css_js_tree_helper'

@@ -3,9 +3,13 @@ require 'mocha'
 include CssJsTreeHelper
 
 class CssJsTreeHelperTest < ActionView::TestCase
-  test "css_tree returns the correct value" do
 
+  def setup
     self.stubs(:action_name).returns('foo')
+    self.stubs(:content_for).returns( ActiveSupport::SafeBuffer.new)
+  end
+
+  test "css_tree returns the correct value" do
     File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', 'generated', 'action_view', 'test_case', 'test', 'foo.css')).returns(true)
     File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', 'generated', 'action_view', 'test_case', 'test.css')).returns(false)
     File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', 'generated', 'action_view', 'test_case.css')).returns(true)
@@ -17,8 +21,6 @@ class CssJsTreeHelperTest < ActionView::TestCase
   end
 
   test "js_tree returns the correct values" do
-
-    self.stubs(:action_name).returns('foo')
     File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', 'generated', 'action_view', 'test_case', 'test', 'foo.js')).returns(true)
     File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', 'generated', 'action_view', 'test_case', 'test.js')).returns(false)
     File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', 'generated', 'action_view', 'test_case.js')).returns(true)

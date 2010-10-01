@@ -12,7 +12,24 @@ Say you have controller `Admin::User::CommentsController`, which has action `sho
 
 CssJsTree will automatically include each of and only the files above that are present when rendering the corresponding view.  It works with your javascript files in the same way.
 
-## Installation
+### more: partial support
+CssJsTree also automatically includes css and js files that correspond to partials that get rendered for each view.  It will only include each css and js once per partial.  So if you have in your view something like:
+
+    ...
+    <% 2.times do %>
+      <%= render :partial '/shared/foo' %>
+    <% end>
+    <%= render :partial '/shared/bar' %>
+    ...
+
+And you have the following files under `public/javascripts`:
+
+- shared/_foo.js
+- shared/_bar.js
+
+Then the `_foo.js` and `_bar.js` files will each be included once into your view.  It works the same way with your css files.
+
+## Installation and Usage
 Install the plugin:
 
     rails plugin install git@github.com:cmanfu/css_js_tree.git
@@ -31,7 +48,7 @@ and add to your layout file:
       ...
     </html>
 
-That's it.  Now, any css files added to your `public/stylesheets` folder and js files added to your `public/javascripts` folder that follow the same hierarchical structure as your controllers and views will automatically get pulled into your view.
+That's it.  Now, any css files added to your `public/stylesheets` folder and js files added to your `public/javascripts` folder that follow the same hierarchical structure as your controllers, views, and partials will automatically get pulled into your view.
 
 ## Configuration
 To change the default root directory to something other than `public/stylesheets`, you can set a relative directory like this (in your application.rb file):
