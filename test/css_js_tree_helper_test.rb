@@ -12,7 +12,7 @@ class CssJsTreeHelperTest < ActionView::TestCase
     File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', 'generated', 'action_view.css')).returns(false)
 
     assert_equal css_tree, '<link href="/stylesheets/generated/action_view/test_case.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="/stylesheets/generated/action_view/test_case/test/foo.css" media="screen" rel="stylesheet" type="text/css" />',
+<link href="/stylesheets/generated/action_view/test_case/test/foo.css" media="screen" rel="stylesheet" type="text/css" />'
 
   end
 
