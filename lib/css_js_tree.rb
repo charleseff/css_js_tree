@@ -1,6 +1,7 @@
-class CssTree
+class CssJsTree
   @@config ||= {
-          :css_tree_location => ''
+          :css_tree_location => '',
+          :js_tree_location => ''
   }
 
   cattr_accessor :config
@@ -13,4 +14,4 @@ end
 $LOAD_PATH <<  File.join(File.dirname(__FILE__), 'app', 'helpers')
 
 
-require 'css_tree_helper'
+require 'css_js_tree_helper'
