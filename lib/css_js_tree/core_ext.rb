@@ -1,7 +1,6 @@
 module ActionView
   module Partials
     class PartialRenderer
-      include ActionView::Helpers::AssetTagHelper
 
       # detects js and css files associated with partials and includes them in a content_for block
       def render_partial_with_css_js_tree
