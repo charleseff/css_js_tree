@@ -12,7 +12,7 @@ Say you have controller `Admin::User::CommentsController`, which has action `sho
 
 CssJsTree will automatically include each of and only the files above that are present when rendering the corresponding view.  It works with your javascript files in the same way.
 
-### more: partials support
+### more: support for partials
 CssJsTree also automatically includes css and js files that correspond to partials that get rendered for each view.  It will only include each css and js once per partial.  So if you have in your view something like:
 
     ...

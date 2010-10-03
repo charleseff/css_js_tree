@@ -1,34 +1,46 @@
 module CssJsTreeHelper
-  
-  def css_tree
-    hierarchy = controller.class.to_s.underscore.gsub('_controller','').split('/') + [action_name]
 
-    included_css = 1.upto(hierarchy.size).inject([])  do |array, i |
-      rel_location = CssJsTree.config[ :css_tree_location ] +  '/' + hierarchy[0,i].join('/') + '.css'
-      array << rel_location if File.exists? File.join(Rails.root, 'public', 'stylesheets', rel_location )
-      array
+  [:css,:js].each do |type|
+    case type
+      when :css
+        method_name = :css_tree
+        cache = CssJsTree.css_cache
+        tree_location = :css_tree_location
+        folder = 'stylesheets'
+        include_tag_method = :stylesheet_link_tag
+        content_for_sym = :css_tree
+        ext = '.css'
+      when :js
+        method_name = :js_tree
+        cache = CssJsTree.js_cache
+        tree_location = :js_tree_location
+        folder = 'javascripts'
+        include_tag_method = :javascript_include_tag
+        content_for_sym = :js_tree
+        ext = '.js'
     end
 
-    ret_val = ActiveSupport::SafeBuffer.new
-    ret_val += stylesheet_link_tag(included_css) unless included_css.empty?
-    ret_val += content_for(:css_tree)
-    ret_val
-  end
+    define_method(method_name) do
+      path = controller.class.to_s.underscore.gsub('_controller', '') + '/' + action_name
+      key = path.to_sym
 
-  def js_tree
-    hierarchy = controller.class.to_s.underscore.gsub('_controller','').split('/') + [action_name]
+      (cache.has_key? key) ? cache[key] :
+              lambda do
+                hierarchy = path.split('/')
 
-    included_js = 1.upto(hierarchy.size).inject([])  do |array, i |
-      rel_location = CssJsTree.config[:js_tree_location ] + '/' + hierarchy[0,i].join('/') + '.js'
-      array << rel_location if File.exists? File.join(Rails.root, 'public', 'javascripts', rel_location )
-      array
+                included = 1.upto(hierarchy.size).inject([]) do |array, i|
+                  rel_location = CssJsTree.config[tree_location] + '/' + hierarchy[0, i].join('/') + ext
+                  array << rel_location if File.exists? File.join(Rails.root, 'public', folder, rel_location)
+                  array
+                end
+
+                ret_val = ActiveSupport::SafeBuffer.new
+                ret_val += self.send(include_tag_method, included) unless included.empty?
+                ret_val += content_for(content_for_sym)
+
+                cache[key] = ret_val
+                ret_val
+              end.call
     end
-
-    ret_val = ActiveSupport::SafeBuffer.new
-    ret_val += javascript_include_tag(included_js) unless included_js.empty?
-    ret_val += content_for(:js_tree)
-    ret_val
   end
-
-
 end

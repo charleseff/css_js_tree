@@ -31,5 +31,7 @@ class CssJsTreeHelperTest < ActionView::TestCase
 
   end
 
+  # todo: test partials support
+
 end
 

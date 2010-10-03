@@ -1,14 +1,19 @@
 class CssJsTree
+
   @@config ||= {
           :css_tree_location => '',
           :js_tree_location => ''
   }
 
-  cattr_accessor :config
+  cattr_accessor :config, :css_cache, :js_cache
+  @@css_cache = {}
+  @@js_cache = {}
 
   def self.configure(&block)
     yield @@config
   end
+
+
 end
 
 require "css_js_tree/core_ext"
