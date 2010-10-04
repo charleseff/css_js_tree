@@ -5,33 +5,43 @@ include CssJsTreeHelper
 class CssJsTreeHelperTest < ActionView::TestCase
 
   def setup
+    Rails.cache.clear
     self.stubs(:action_name).returns('foo')
     self.stubs(:content_for).returns( ActiveSupport::SafeBuffer.new)
   end
 
   test "css_tree returns the correct value" do
-    File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', 'generated', 'action_view', 'test_case', 'test', 'foo.css')).returns(true)
-    File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', 'generated', 'action_view', 'test_case', 'test.css')).returns(false)
-    File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', 'generated', 'action_view', 'test_case.css')).returns(true)
-    File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', 'generated', 'action_view.css')).returns(false)
+    File.stubs(:exists?).returns(false)
+    File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', 'action_view.css')).returns(true)
+    File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', 'action_view', 'test_case', 'test', 'foo.css')).returns(true)
 
-    assert_equal css_tree, '<link href="/stylesheets/generated/action_view/test_case.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="/stylesheets/generated/action_view/test_case/test/foo.css" media="screen" rel="stylesheet" type="text/css" />'
+    assert_equal css_tree, '<link href="/stylesheets/action_view.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="/stylesheets/action_view/test_case/test/foo.css" media="screen" rel="stylesheet" type="text/css" />'
 
   end
 
   test "js_tree returns the correct values" do
-    File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', 'generated', 'action_view', 'test_case', 'test', 'foo.js')).returns(true)
-    File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', 'generated', 'action_view', 'test_case', 'test.js')).returns(false)
-    File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', 'generated', 'action_view', 'test_case.js')).returns(true)
-    File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', 'generated', 'action_view.js')).returns(false)
+    File.stubs(:exists?).returns(false)
+    File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', 'action_view.js')).returns(true)
+    File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', 'action_view', 'test_case', 'test', 'foo.js')).returns(true)
 
-    assert_equal js_tree, '<script src="/javascripts/generated/action_view/test_case.js" type="text/javascript"></script>
-<script src="/javascripts/generated/action_view/test_case/test/foo.js" type="text/javascript"></script>'
+    assert_equal js_tree, '<script src="/javascripts/action_view.js" type="text/javascript"></script>
+<script src="/javascripts/action_view/test_case/test/foo.js" type="text/javascript"></script>'
 
   end
 
-  # todo: test partials support
+  test 'partial css and js get pulled in' do
+    view_paths << File.join(File.dirname(__FILE__), 'fixtures/views')
+
+    File.stubs(:exists?).returns(false)
+    File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', '_test.css')).returns(true)
+    File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', '_test.js')).returns(true)
+
+    render :partial => 'test'
+
+    assert_equal css_tree, '<link href="/stylesheets/_test.css" media="screen" rel="stylesheet" type="text/css" />'
+    assert_equal js_tree, '<script src="/javascripts/_test.js" type="text/javascript"></script>'
+  end
 
 end
 
