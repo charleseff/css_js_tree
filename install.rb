@@ -1,1 +1,1 @@
-# Install hook code here
+FileUtils.rm_rf File.join( File.dirname(__FILE__), 'test')
