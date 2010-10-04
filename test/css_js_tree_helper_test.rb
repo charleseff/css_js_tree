@@ -31,8 +31,6 @@ class CssJsTreeHelperTest < ActionView::TestCase
   end
 
   test 'partial css and js get pulled in' do
-    view_paths << File.join(File.dirname(__FILE__), 'fixtures/views')
-
     File.stubs(:exists?).returns(false)
     File.stubs(:exists?).with(File.join(Rails.root,'public','stylesheets', '_test.css')).returns(true)
     File.stubs(:exists?).with(File.join(Rails.root,'public','javascripts', '_test.js')).returns(true)
