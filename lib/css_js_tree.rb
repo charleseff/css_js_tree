@@ -5,9 +5,7 @@ class CssJsTree
           :js_tree_location => ''
   }
 
-  cattr_accessor :config, :css_cache, :js_cache
-  @@css_cache = {}
-  @@js_cache = {}
+  cattr_accessor :config
 
   def self.configure(&block)
     yield @@config

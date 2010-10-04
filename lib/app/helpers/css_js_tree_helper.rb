@@ -4,7 +4,7 @@ module CssJsTreeHelper
     case type
       when :css
         method_name = :css_tree
-        cache = CssJsTree.css_cache
+        cache_prefix = 'css_tree_'
         tree_location = :css_tree_location
         folder = 'stylesheets'
         include_tag_method = :stylesheet_link_tag
@@ -12,7 +12,7 @@ module CssJsTreeHelper
         ext = '.css'
       when :js
         method_name = :js_tree
-        cache = CssJsTree.js_cache
+        cache_prefix = 'js_tree_'
         tree_location = :js_tree_location
         folder = 'javascripts'
         include_tag_method = :javascript_include_tag
@@ -22,9 +22,9 @@ module CssJsTreeHelper
 
     define_method(method_name) do
       path = controller.class.to_s.underscore.gsub('_controller', '') + '/' + action_name
-      key = path.to_sym
 
-      (cache.has_key? key) ? cache[key] :
+      key = (cache_prefix + path).to_sym
+      Rails.cache.read(key) ||
               lambda do
                 hierarchy = path.split('/')
 
@@ -38,7 +38,7 @@ module CssJsTreeHelper
                 ret_val += self.send(include_tag_method, included) unless included.empty?
                 ret_val += content_for(content_for_sym)
 
-                cache[key] = ret_val
+                Rails.cache.write(key, ret_val)
                 ret_val
               end.call
     end
