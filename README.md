@@ -51,7 +51,7 @@ and add to your layout file:
 That's it.  Now, any css files added to your `public/stylesheets` folder and js files added to your `public/javascripts` folder that follow the same hierarchical structure as your controllers, views, and partials will automatically get pulled into your view.
 
 ## Configuration
-To change the default root directory to something other than `public/stylesheets`, you can set a relative directory like this (in your application.rb file):
+You can access the CssJsTree configuration by opening a CssJsTree.configure block inside your application.rb file like so:
 
     class Application < Rails::Application
     ...
@@ -59,8 +59,16 @@ To change the default root directory to something other than `public/stylesheets
         CssJsTree.configure do |config|
           config[:css_tree_location] = 'generated'
           config[:js_tree_location] = 'tree'
+          ...
         end
       end
     end
 
+
+### options
+
+#### css_tree_location, js_tree_location
 This is useful when you have css files that you want to reside outside of this structure, or when you're using Sass to generate your css files.
+
+#### cache_prefix
+Rails caching key prefix can be adjusted

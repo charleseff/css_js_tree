@@ -42,5 +42,18 @@ class CssJsTreeHelperTest < ActionView::TestCase
     assert_equal js_tree, '<script src="/javascripts/_test.js" type="text/javascript"></script>'
   end
 
+  test 'cache prefix config change' do
+    File.stubs(:exists?).returns(false)
+    File.expects(:exists?).with(File.join(Rails.root,'public','stylesheets', 'action_view.css')).returns(true)
+    css_tree
+    assert Rails.cache.exist?("css_js_tree_css_action_view/test_case/test/foo")
+    Rails.cache.clear
+    assert(!Rails.cache.exist?("css_js_tree_css_action_view/test_case/test/foo"))
+
+    CssJsTree.config[:cache_prefix] = 'foo_'
+    css_tree
+    assert Rails.cache.exist?("foo_css_action_view/test_case/test/foo")
+  end
+
 end
 

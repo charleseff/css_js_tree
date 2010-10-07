@@ -1,0 +1,2 @@
+- rake task and switch for conversion to single files
+- better documentation?

@@ -2,7 +2,8 @@ class CssJsTree
 
   @@config ||= {
           :css_tree_location => '',
-          :js_tree_location => ''
+          :js_tree_location => '',
+          :cache_prefix => 'css_js_tree_'
   }
 
   cattr_accessor :config

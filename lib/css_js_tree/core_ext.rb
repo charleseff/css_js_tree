@@ -23,7 +23,7 @@ class ActionView::Partials::PartialRenderer
     case type
       when :css
         method_name = :render_css_include
-        key_prefix = 'css_tree_partial_'
+        key_prefix = 'css_partial_'
         tree_location = :css_tree_location
         ext = '.css'
         path_dir = 'stylesheets'
@@ -31,7 +31,7 @@ class ActionView::Partials::PartialRenderer
         include_tag_method = :stylesheet_link_tag
       when :js
         method_name = :render_js_include
-        key_prefix = 'js_tree_partial_'
+        key_prefix = 'js_partial_'
         tree_location = :js_tree_location
         ext = '.js'
         path_dir = 'javascripts'
@@ -40,7 +40,7 @@ class ActionView::Partials::PartialRenderer
     end
 
     define_method(method_name) do |path|
-      key = (key_prefix + path).to_sym
+      key = (CssJsTree.config[:cache_prefix] + key_prefix + path).to_sym
 
       value = Rails.cache.fetch(key) do
         rel_location = CssJsTree.config[tree_location] + @template.virtual_path + ext
