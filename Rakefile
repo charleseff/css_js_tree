@@ -2,6 +2,8 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
+require 'rspec/core/rake_task'
+
 desc 'Default: run unit tests.'
 task :default => :test
 
@@ -21,3 +23,14 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+namespace :spec do
+  desc "Run unit specs"
+    RSpec::Core::RakeTask.new('unit') do |t|
+#    t.rspec_opts = ['--options', "spec/spec.opts"]
+    t.pattern = FileList['spec/**/*_spec.rb']
+  end
+end
+
+desc "Run the unit and acceptance specs"
+task :spec => ['spec:unit']
