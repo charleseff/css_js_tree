@@ -11,5 +11,5 @@ require 'rspec/rails'
 require 'css_js_tree'
 
 RSpec.configure do |config|
-   config.mock_with :rspec
+  config.mock_with :rspec
 end

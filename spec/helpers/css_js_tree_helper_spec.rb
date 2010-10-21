@@ -4,16 +4,16 @@ describe CssJsTreeHelper do
 
   before(:each) do
     Rails.cache.clear
-    self.stubs(:action_name).returns('foo')
-    self.stubs(:content_for).returns( ActiveSupport::SafeBuffer.new)
-    File.stubs(:exists?).returns(false)
+    self.stub!(:action_name).and_return('foo')
+    self.stub!(:content_for).and_return( ActiveSupport::SafeBuffer.new)
+    File.stub!(:exists?).and_return(false)
 
   end
 
   describe '#css_tree' do
     it 'should return the correct value' do
-      File.expects(:exists?).with(File.join(Rails.root,'public','stylesheets', 'action_view.css')).returns(true)
-      File.expects(:exists?).with(File.join(Rails.root,'public','stylesheets', 'action_view', 'test_case', 'test', 'foo.css')).returns(true)
+      File.should_receive(:exists?).with(File.join(Rails.root,'public','stylesheets', 'action_view.css')).and_return(true)
+      File.should_receive(:exists?).with(File.join(Rails.root,'public','stylesheets', 'action_view', 'test_case', 'test', 'foo.css')).and_return(true)
 
       css_tree.should == '<link href="/stylesheets/action_view.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="/stylesheets/action_view/test_case/test/foo.css" media="screen" rel="stylesheet" type="text/css" />'
@@ -21,7 +21,7 @@ describe CssJsTreeHelper do
     end
 
     it 'should cache prefix config change' do
-      File.expects(:exists?).with(File.join(Rails.root,'public','stylesheets', 'action_view.css')).returns(true)
+      File.should_receive(:exists?).with(File.join(Rails.root,'public','stylesheets', 'action_view.css')).and_return(true)
       css_tree
       Rails.cache.exist?("css_js_tree_css_action_view/test_case/test/foo").should be_true
       Rails.cache.clear
@@ -36,8 +36,8 @@ describe CssJsTreeHelper do
 
   describe '#js_tree' do
     it 'should return the correct values' do
-      File.expects(:exists?).with(File.join(Rails.root,'public','javascripts', 'action_view.js')).returns(true)
-      File.expects(:exists?).with(File.join(Rails.root,'public','javascripts', 'action_view', 'test_case', 'test', 'foo.js')).returns(true)
+      File.should_receive(:exists?).with(File.join(Rails.root,'public','javascripts', 'action_view.js')).and_return(true)
+      File.should_receive(:exists?).with(File.join(Rails.root,'public','javascripts', 'action_view', 'test_case', 'test', 'foo.js')).and_return(true)
 
       js_tree.should == '<script src="/javascripts/action_view.js" type="text/javascript"></script>
 <script src="/javascripts/action_view/test_case/test/foo.js" type="text/javascript"></script>'
@@ -45,8 +45,8 @@ describe CssJsTreeHelper do
   end
 
   it 'should pull in partial css and js' do
-    File.expects(:exists?).times(1).with(File.join(Rails.root,'public','stylesheets', '_test.css')).returns(true)
-    File.expects(:exists?).times(1).with(File.join(Rails.root,'public','javascripts', '_test.js')).returns(true)
+    File.should_receive(:exists?).once.with(File.join(Rails.root,'public','stylesheets', '_test.css')).and_return(true)
+    File.should_receive(:exists?).once.with(File.join(Rails.root,'public','javascripts', '_test.js')).and_return(true)
 
     render :partial => '/test'
     render :partial => '/test'

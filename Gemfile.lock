@@ -40,8 +40,6 @@ GEM
       mime-types
       treetop (>= 1.4.5)
     mime-types (1.16)
-    mocha (0.9.8)
-      rake
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -83,8 +81,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport
-  mocha
   rails (= 3.0.1)
   rspec (= 2.0.1)
   rspec-rails (= 2.0.1)
