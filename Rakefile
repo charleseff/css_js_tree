@@ -5,7 +5,7 @@ require 'rake/rdoctask'
 require 'rspec/core/rake_task'
 
 desc 'Default: run unit tests.'
-task :default => :test
+task :default => :spec
 
 desc 'Test the css_tree plugin.'
 Rake::TestTask.new(:test) do |t|
