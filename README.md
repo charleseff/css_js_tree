@@ -32,7 +32,7 @@ Then the `_foo.js` and `_bar.js` files will each be included once into your view
 ## Installation and Usage
 Install the plugin:
 
-    rails plugin install git@github.com:cmanfu/css_js_tree.git
+    rails plugin install git@github.com:charleseff/css_js_tree.git
 
 Then, in application_controller.rb add this line:
 
