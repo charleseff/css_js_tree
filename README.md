@@ -1,6 +1,8 @@
  CssJsTree
 =======
-CssJsTree is a Rails plugin to allow automatic loading of css and/or javascript files using the same hierarchical structure as your controllers and views for better modularity and separation of concerns.
+CssJsTree is a Rails plugin to allow automatic loading of css and/or javascript files using the same hierarchical structure as your controllers and views for better modularity and separation of concerns.  Intended for Rails 3.0 or lower.
+
+(9-18-11) note: CssJsTree has become abondonware, until or unless I can reassess how it might fit into Rails 3.1.
 
 ## What does it do exactly?
 Say you have controller `Admin::User::CommentsController`, which has action `show` and you have the following files under your `public/stylesheets` folder:
